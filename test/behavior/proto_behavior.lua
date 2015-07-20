@@ -3,13 +3,13 @@
 --#########################################
 
 
-function click__apply()
+function click__pb_calibration_apply()
     __log("My Log: clic__apply")
     -- We can perform an action on widgets placed in differents dialogs and windows
     MainWindow.hs_balanceLevel:setValue(90)
 end
 
-function click__reset()
+function click__pb_calibration_reset()
     __log("My Log: clic__reset")
     MainWindow.hs_balanceLevel:setValue(10)
     MainWindow.di_ampliLevel:setValue(10)

@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     bconf.updateFileTime(10)
          .logFormat("[%tm] %wi Event:%en :: State: %cs :: Assertion: %ar :: Function Called: %fc :: Result: %fr")
          .addLogOutputFile("/tmp/behaviorlog.log")
-         .addScriptPath("../behavior/");
+         .addScriptPath("../../test/behavior/");
 
     // You can also configure if the log info goes to the screen.
     // Available parameters are on,off

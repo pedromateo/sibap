@@ -42,19 +42,22 @@ QtLua_BehaviorLayer::QtLua_BehaviorLayer(BehaviorConfiguration *context):Behavio
 void QtLua_BehaviorLayer::createElementRegistrar(void)
 {
     _log::debug <<"QtLua_VerificationLayer: Creating the Lua Rule Manager" << std::endl;
-    context_->elementRegistrar.reset(new csu::aog::gui_vlang::qt_lua::QtLua_ElementRegistrar(context_) );
+    context_->elementRegistrar.reset(
+                new csu::aog::gui_vlang::qt_lua::QtLua_ElementRegistrar(context_) );
 }
 
 void QtLua_BehaviorLayer::createEventAbstractor(void)
 {
     _log::debug <<"QtLua_VerificationLayer: Creating the Event Abstractor" << std::endl;
-    context_->eventAbstractor.reset(new csu::aog::gui::qt::QtEventAbstractor(context_));
+    context_->eventAbstractor.reset(
+                new csu::aog::gui::qt::QtEventAbstractor(context_));
 }
 
 void QtLua_BehaviorLayer::createBehaviorEngine(void)
 {
     _log::debug <<"QtLua_VerificationLayer: Creating the Aspect Engine" << std::endl;
-    context_->aspectEngine.reset(new csu::aog::vlang::lua::Lua_BehaviorEngine(context_));
+    context_->aspectEngine.reset(
+                new csu::aog::vlang::lua::Lua_BehaviorEngine(context_));
 }
 
 }

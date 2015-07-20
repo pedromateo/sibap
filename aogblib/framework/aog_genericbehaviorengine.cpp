@@ -105,8 +105,10 @@ bool GenericBehaviorEngine::executeFunction(const FunctionSet & funcList)
 
 bool GenericBehaviorEngine::executeAction(const std::string & action,const std::string & widget)
 {
-    _log::behav << "(GenericBehaviorEngine::executeAction) Action  "<<action<<" from widget "<<widget<<" arrived." << std::endl;
-    FunctionSet * fset=&widgetFuncMap_[widget];
+    _log::behav << "(GenericBehaviorEngine::executeAction) Action "
+                << action << " from widget " << widget << " arrived." << std::endl;
+
+    FunctionSet * fset = &widgetFuncMap_[widget];
 
     if (fset->size()!=0)
     {
@@ -126,18 +128,19 @@ bool GenericBehaviorEngine::executeAction(const std::string & action,const std::
 
 
         //To avoid unnecessary calls, a previous check is done
-        //This checking is done indexing the global table of the engine itself
-        //beacuse searches has a better performance
+        //This checking is done by indexing the global table of the engine itself
+        //beacuse searches have a better performance
         if (!functionExists(realfunc))
            return false;
 
         //Calling assertion function if exists
-        bool assertion=this->callAssertFunction(widget);
+        bool assertion = this->callAssertFunction(widget);
 
         bool result;
         if (assertion){
-            result=this->callFunction(realfunc);
+            result = this->callFunction(realfunc);
         }
+
         er->assertResult(assertion);
         er->functionCalled(realfunc);
         er->actionWidget(widget);
@@ -158,7 +161,6 @@ bool GenericBehaviorEngine::executeAction(const std::string & action,const std::
         logFunc="log"+separator+widget;
         if (functionExists(logFunc))
             this->callFunction(logFunc);
-
     }
 
 }
@@ -167,9 +169,6 @@ const FunctionSet & GenericBehaviorEngine::functions()
 {
     return globalFuncList_;
 }
-
-
-
 
 
 void GenericBehaviorEngine::processGlobalEnvironmentTable(const FunctionSet * funcs)

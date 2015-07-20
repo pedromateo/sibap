@@ -81,23 +81,28 @@ bool QtEventAbstractor::eventFilter(QObject *obj, QEvent *event)
     //check them against the srs document
 
 
-    std::string widgetName=obj->objectName().toStdString();
+    std::string widgetName = obj->objectName().toStdString();
 
-    if (widgetName=="")
+    if (widgetName == "")
         return false;
 
-    if (eventMap_[event->type()]!="")
+    // if event is in the list...
+    if (eventMap_[event->type()] != "")
     {
         context_->aspectEngine->executeAction(eventMap_[event->type()],widgetName);
-    }else if (strcmp(obj->metaObject()->className(),"QTipLabel") != 0)
+    }
+    // if not, check dialog creation...
+    else if (strcmp(obj->metaObject()->className(),"QTipLabel") != 0)
     {
-        if (event->type()==QEvent::HideToParent)
+
+        //A dialog has been closed
+        if (event->type() == QEvent::HideToParent)
         {
-            //A dialog has been closed
             notifyDelete(widgetName);
-        }else if (event->type()==QEvent::WinIdChange)
+        }
+        //New Dialog has been created
+        else if (event->type() == QEvent::WinIdChange)
         {
-            //New Dialog has been created
             notifyCreate(widgetName);
         }
     }

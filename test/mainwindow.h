@@ -2,9 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <nativecontroller.h>
 
 namespace Ui {
-    class MainWindow;
+class MainWindow;
 }
 
 class MainWindow : public QMainWindow {
@@ -14,24 +15,36 @@ public:
     ~MainWindow();
 
 protected:
-    void changeEvent(QEvent *e);
+    //void changeEvent(QEvent *e);
 
-private:
+protected:
     Ui::MainWindow *ui;
+    NativeController _control;
 
 private slots:
-    void on_pushButton_3_clicked();
-    void on_pushButton_2_clicked();
-    void on_pushButton_clicked();
-    void on_pushButton_6_clicked();
-    void on_pushButton_7_clicked();
-    void on_pushButton_4_clicked();
-    void on_pushButton_5_clicked();
-    void on_pb_right_valueChanged(int value);
-    void on_pb_left_valueChanged(int value);
-    void on_hs_balanceLevel_sliderMoved(int position);
-    void on_apply_clicked();
-    void on_reset_clicked();
+
+    ///
+    /// CALIBRATION
+
+    void on_pb_calibration_apply_clicked();
+    void on_pb_calibration_reset_clicked();
+    void on_pb_right_valueChanged(int v);
+    void on_pb_left_valueChanged(int v);
+
+    ///
+    /// SONAR
+
+    void on_pb_sonar_apply_clicked();
+    void on_pb_sonar_save_clicked();
+
+
+    ///
+    /// SONOBUOY
+
+    void on_pb_sonobuoy_add_clicked();
+    void on_pb_sonobuoy_reset_clicked();
+    void on_pb_sonobuoy_delete_clicked();
+    void on_hs_balanceLevel_sliderMoved(int balance);
 };
 
 #endif // MAINWINDOW_H

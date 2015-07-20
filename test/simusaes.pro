@@ -17,8 +17,8 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 
-LIBS += -L../../aogblib/build -laogb
-INCLUDEPATH += ../../aogblib
+LIBS += -L../aogblib -laogb
+INCLUDEPATH += ../aogblib
 
 OTHER_FILES += behavior/initialization.lua \
     behavior/proto_behavior.lua \
@@ -26,12 +26,3 @@ OTHER_FILES += behavior/initialization.lua \
     layer.config
 
 LIBS += -lboost_system -lboost_program_options
-
-#INCLUDEPATH += ../../../libs/current/ \
-#    /usr/include/lua5.1/ \
-#    /usr/local/include/luabind/
-
-#LIBS += -llua5.1 \
-#    -lluabindd \
-#    -L/usr/local/lib/
-
