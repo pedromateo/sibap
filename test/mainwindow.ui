@@ -310,10 +310,10 @@ p, li { white-space: pre-wrap; }
          <widget class="QDial" name="di_volumeLevel"/>
         </item>
         <item row="3" column="0">
-         <widget class="QLCDNumber" name="lcdNumber"/>
+         <widget class="QLCDNumber" name="lc_nrLevel"/>
         </item>
         <item row="3" column="1">
-         <widget class="QLCDNumber" name="lcdNumber_2"/>
+         <widget class="QLCDNumber" name="lc_volumeLevel"/>
         </item>
         <item row="4" column="0" colspan="2">
          <widget class="QLabel" name="label_18">

@@ -19,7 +19,6 @@ protected:
 
 protected:
     Ui::MainWindow *ui;
-    NativeController _control;
 
 private slots:
 
@@ -45,6 +44,13 @@ private slots:
     void on_pb_sonobuoy_reset_clicked();
     void on_pb_sonobuoy_delete_clicked();
     void on_hs_balanceLevel_sliderMoved(int balance);
+    void on_di_nrLevel_valueChanged(int value);
+    void on_di_volumeLevel_valueChanged(int value);
+    void on_hs_balanceLevel_valueChanged(int value);
+    void on_di_ampliLevel_valueChanged(int value);
+    void on_di_signalEcho_valueChanged(int value);
+    void on_sb_bufferSize_valueChanged(int arg1);
+    void on_sb_sampleRate_valueChanged(int arg1);
 };
 
 #endif // MAINWINDOW_H

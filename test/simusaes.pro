@@ -9,11 +9,9 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    nativecontroller.cpp
+        mainwindow.cpp
 
-HEADERS  += mainwindow.h \
-    nativecontroller.h
+HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
 
