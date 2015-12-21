@@ -28,22 +28,17 @@ MainWindow::~MainWindow()
 }*/
 
 ///
-/// This example uses a controller implemented in NativeController class.
-/// This is just to show the usage of other external classes.
-/// Qt uses the model/view approach. This example does not follow this approach.
-///
-
-///
 ///
 /// CALIBRATION
 
 void MainWindow::on_pb_calibration_apply_clicked()
 {
-    std::cout << "calling controller method from another class..." << std::endl;
+    std::cout << "TODO native implementation for on_pb_calibration_apply_clicked" << std::endl;
 }
 
 void MainWindow::on_pb_calibration_reset_clicked()
 {
+    std::cout << "TODO native implementation for on_pb_calibration_reset_clicked" << std::endl;
     /*ui->di_nrLevel->setValue(0);
     ui->di_volumeLevel->setValue(0);
     ui->di_ampliLevel->setValue(0);
@@ -57,6 +52,7 @@ void MainWindow::on_pb_calibration_reset_clicked()
 
 void MainWindow::on_pb_right_valueChanged(int v)
 {
+    std::cout << "TODO native implementation for on_pb_right_valueChanged" << std::endl;
     /*int value = (ui->lcdNumber->value() +
                  ui->lcdNumber_2->value() +
                  ui->lcdNumber_3->value() +
@@ -69,6 +65,7 @@ void MainWindow::on_pb_right_valueChanged(int v)
 
 void MainWindow::on_pb_left_valueChanged(int v)
 {
+    std::cout << "TODO native implementation for on_pb_left_valueChanged" << std::endl;
     /*int value = (ui->lcdNumber->value() +
                  ui->lcdNumber_2->value() +
                  ui->lcdNumber_3->value() +
@@ -84,37 +81,37 @@ void MainWindow::on_pb_left_valueChanged(int v)
 
 void MainWindow::on_di_nrLevel_valueChanged(int value)
 {
-
+    std::cout << "TODO native implementation for on_di_nrLevel_valueChanged" << std::endl;
 }
 
 void MainWindow::on_di_volumeLevel_valueChanged(int value)
 {
-
+    std::cout << "TODO native implementation for on_di_volumeLevel_valueChanged" << std::endl;
 }
 
 void MainWindow::on_hs_balanceLevel_valueChanged(int value)
 {
-
+    std::cout << "TODO native implementation for on_hs_balanceLevel_valueChanged" << std::endl;
 }
 
 void MainWindow::on_di_ampliLevel_valueChanged(int value)
 {
-
+    std::cout << "TODO native implementation for on_di_ampliLevel_valueChanged" << std::endl;
 }
 
 void MainWindow::on_di_signalEcho_valueChanged(int value)
 {
-
+    std::cout << "TODO native implementation for on_di_signalEcho_valueChanged" << std::endl;
 }
 
 void MainWindow::on_sb_bufferSize_valueChanged(int arg1)
 {
-
+    std::cout << "TODO native implementation for on_sb_bufferSize_valueChanged" << std::endl;
 }
 
 void MainWindow::on_sb_sampleRate_valueChanged(int arg1)
 {
-
+    std::cout << "TODO native implementation for on_sb_sampleRate_valueChanged" << std::endl;
 }
 
 
