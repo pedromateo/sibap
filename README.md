@@ -1,5 +1,3 @@
-# SIBAP
-### ScrIpt-Based Aspect-oriented Prototyping framework
 
 **This implementation corresponds to a research work. It is ready to be downloaded and integrated into Qt/C++ projects. It uses Lua as the prototyping language**
 
