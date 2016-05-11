@@ -98,7 +98,9 @@ bool Lua_BehaviorEngine::callFunction(const std::string & func)
             return luabind::call_function<bool>(L_, func.c_str());
         }
 
-    }catch(luabind::error & e){
+        return false;
+    }
+    catch(luabind::error & e){
 
         /// if std::exception is used as the exception type only a "lua runtime error" message will be catched
 
@@ -109,7 +111,8 @@ bool Lua_BehaviorEngine::callFunction(const std::string & func)
         _log::debug << "(Lua_BehaviorEngine::callFunction) ERROR: "<<error_msg << std::endl;
         context_->logManager->doLog("ERROR: "+luabind::object_cast<std::string>(error_msg));
         return false;
-    }catch(luabind::cast_failed e) {
+    }
+    catch(luabind::cast_failed e) {
         return false;
     }
 }

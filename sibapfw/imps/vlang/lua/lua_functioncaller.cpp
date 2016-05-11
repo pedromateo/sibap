@@ -78,6 +78,7 @@ bool LuaFunctionCaller::callFunction(const std::string & func)
     try
     {
         luabind::call_function<void>(L_, func.c_str(), 0, 0);
+        return true;
     }catch(const luabind::error & e){
         //if std::exception is used as the exception type only a "lua runtime error" message will be catched
         //std::cout<<"Generada excepcion "<<e.what()<<std::endl;
@@ -87,6 +88,7 @@ bool LuaFunctionCaller::callFunction(const std::string & func)
         //NOTICE: althought the error handler is set, this message would be prompted
         luabind::object error_msg(luabind::from_stack(e.state(), -1));
         std::cout << error_msg << std::endl;
+        return false;
     }
 }
 

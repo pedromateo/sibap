@@ -1,4 +1,4 @@
-TARGET = aogb
+TARGET = sibapfw
 TEMPLATE = lib
 
 CONFIG += qt
@@ -65,10 +65,13 @@ HEADERS += \
 ./imps/gui_vlang/qtlua_elementregistrar.h
 
 
+### maybe you need some includes >>>
+INCLUDEPATH += /usr/include/lua5.1/ #\
+#    /usr/local/include/luabind/
 
-INCLUDEPATH += ../../../libs/current/ \
-    /usr/include/lua5.1/ \
-    /usr/local/include/luabind/
+LIBS += -L/opt/boost/boost_1_54_0/lib/
+#INCLUDEPATH += /opt/boost/boost_1_54_0/include/
+### maybe you need some includes <<<
 
 LIBS += -llua5.1 -lluabindd \
     -L/usr/local/lib/
@@ -79,6 +82,3 @@ LIBS += -lboost_thread \
     -lboost_date_time \
     -lboost_regex \
     -lboost_program_options
-
-RESOURCES += \
-    #resources.qrc

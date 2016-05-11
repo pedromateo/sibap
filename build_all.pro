@@ -5,7 +5,7 @@
 #-------------------------------------------------------------------------------
 
 # main target
-PROJECT_NAME = aogblib_test
+PROJECT_NAME = sibapfw_test
 TEMPLATE = subdirs
 BUILD_DIR = build
 DESTDIR = $${BUILD_DIR}
@@ -16,6 +16,6 @@ OBJECTS_DIR = $${BUILD_DIR}/objs
 QT       += core gui widgets
 
 # testsuite targets
-SUBDIRS += aogblib/aogblib.pro
+SUBDIRS += sibapfw/sibapfw.pro
 SUBDIRS += test/simusaes.pro
 
