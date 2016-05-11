@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Sibap : Script-based Aspect-oriented Prototyping Framework - Qt + Lua + Cpp (http://www.catedrasaes.org/wiki/AOBehavior)">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Sibap</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/pedromateo/sibap">View on GitHub</a>
+
+          <h1 id="project_title">Sibap</h1>
+          <h2 id="project_tagline">Script-based Aspect-oriented Prototyping Framework - Qt + Lua + Cpp (http://www.catedrasaes.org/wiki/AOBehavior)</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/pedromateo/sibap/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/pedromateo/sibap/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="sibap" class="anchor" href="#sibap" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SIBAP</h1>
+
+<h3>
+<a id="script-based-aspect-oriented-prototyping-framework" class="anchor" href="#script-based-aspect-oriented-prototyping-framework" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ScrIpt-Based Aspect-oriented Prototyping framework</h3>
+
+<p><strong>This implementation corresponds to a research work. It is ready to be downloaded and integrated into Qt/C++ projects. It uses Lua as the prototyping language</strong></p>
+
+<p>First of all, watch this ;-)
+<a href="https://www.youtube.com/watch?v=H9-wh-08BSg">https://www.youtube.com/watch?v=H9-wh-08BSg</a></p>
+
+<p>This framework proposes to treat prototyping as a separate aspect of the agile development process.
+Prototype designs are completely reused and iteratively refined towards the
+final GUI design. In parallel, final functionality is implemented and
+smoothly integrated into the prototype replacing prototyped behaviors.</p>
+
+<p>The design and implementation of a framework supporting this approach is
+presented. It uses separate files to define prototyped behaviors, which are written
+using general-purpose scripting languages and executed by an
+interpreter. The GUI and the final functionality run natively.
+Native and interpreted functionality coexist and run in parallel within the
+application.</p>
+
+<p>As a result, developers and UX designers work in parallel, separately, but
+collaborating on the same software artifact. This encourages communication
+during development. Scripting languages allow also to change the prototype on-the-fly in order
+to incorporate suggestions from different stakeholders in real time. This
+allows to gather feedback more effectively by implementing participatory
+design techniques.</p>
+
+<h2>
+<a id="framework-integration" class="anchor" href="#framework-integration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Framework integration</h2>
+
+<p>The integration process is divided into two stages: configuration and deployment.</p>
+
+<p>Stage 1: Configuration. The process is easily configured using a BehaviorConfiguration
+object. This object encapsulates all configuration data needed during execution (e.g., the di-rectory of behavior files or refreshing time) It can be instantiated from a configuration file:</p>
+
+<pre><code>// behavior layer configuration
+BehaviorConfiguration bconf("config/layer.config");
+</code></pre>
+
+<p>Stage 2: Deployment. Once the configuration object is created, it is used to create and configure a new BehaviorLayer. The BehaviorLayer object encapsulates the whole prototyping framework. Once created, the
+init() method is called to deploy and start the behavior service:</p>
+
+<pre><code>// behavior layer deployment
+QtLua_BehaviorLayer blayer(bconf);
+blayer.init();
+</code></pre>
+
+<h2>
+<a id="framework-functions" class="anchor" href="#framework-functions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Framework functions</h2>
+
+<h3>
+<a id="main-function-template" class="anchor" href="#main-function-template" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Main function template</h3>
+
+<pre><code>state stateID event widget()   // Executed when event is performed on widget 
+                               // being in state stateID. state stateID is optional.
+</code></pre>
+
+<h3>
+<a id="initialization-functions" class="anchor" href="#initialization-functions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Initialization functions</h3>
+
+<pre><code>init widget()                  // Initialization of widget
+state stateID widget()         // Initialization of widget when stateID is enabled
+</code></pre>
+
+<h3>
+<a id="state-functions" class="anchor" href="#state-functions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>State functions</h3>
+
+<pre><code>state stateID()                // Does transition to state stateID. (State functions
+                               // are automatically defined by SIBAP ).
+</code></pre>
+
+<h3>
+<a id="logging-functions" class="anchor" href="#logging-functions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Logging functions</h3>
+
+<pre><code>log widget()                   // Executed when widget is interacted
+event log()                    // Executed when event is performed
+log(content)                   // Adds content to log streams
+flog(fileName,content)         // Adds content to the file fileName
+</code></pre>
+
+<h2>
+<a id="prototype-initialization" class="anchor" href="#prototype-initialization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prototype initialization</h2>
+
+<p>Designers start creating a file, say initialization.lua, to define how the
+values in the prototype GUI are initialized. This file is included in the directory
+behavior/MainWindow/ to indicate that this behavior file corresponds to the dialog with
+name MainWindow. init * functions are used to initialize the prototype (see above).</p>
+
+<pre><code>function init__widget_name()
+  MainWindow.a_widget:setValue(0)
+  MainWindow.another_widget:setValue(0)
+end
+</code></pre>
+
+<h2>
+<a id="defining-prototyped-behavors" class="anchor" href="#defining-prototyped-behavors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Defining prototyped behavors</h2>
+
+<p>In order to define new prototyped behavior, a new file, say somebehavior.lua, is created
+in the behavior/MainWindow/ folder. The following code is used to handle the click event
+performed on the widget1 widget:</p>
+
+<pre><code>value, result = 0
+
+function click__widget1()
+   value = MainWindow.widget2:value()
+   calculateSomething()
+end
+
+function calculateSomething()
+   result = ...
+end
+</code></pre>
+
+<p>Supporting functions can be used along with behavior functions.</p>
+
+<h2>
+<a id="integrating-native-functionality" class="anchor" href="#integrating-native-functionality" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Integrating native functionality</h2>
+
+<p>At some point during the development, prototyped behaviors are replaced with the corresponding native functionality. Native functionality is implemented, as usual, using C++ methods and functions. Once the native functionality is integrated into the implementation of the application (i.e., the *.h and *.cpp files) the corresponding prototyped behaviors need to be removed from the script files. </p>
+
+<p>After recompiling and relaunching the application (needed to make native functionality work) the application will respond now with native functionality when the corresponding widget is interacted.</p>
+
+<p>Go to <a href="http://www.catedrasaes.org/html/projects/sibap/sibap.html">http://www.catedrasaes.org/html/projects/sibap/sibap.html</a> for further project description.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Sibap maintained by <a href="https://github.com/pedromateo">pedromateo</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
