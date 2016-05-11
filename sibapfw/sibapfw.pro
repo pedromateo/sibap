@@ -65,16 +65,16 @@ HEADERS += \
 ./imps/gui_vlang/qtlua_elementregistrar.h
 
 
-### maybe you need some includes >>>
+### some lines here should be changed for compilation in your computer >>>
 INCLUDEPATH += /usr/include/lua5.1/ #\
 #    /usr/local/include/luabind/
 
+LIBS += -L/usr/local/lib/
 LIBS += -L/opt/boost/boost_1_54_0/lib/
 #INCLUDEPATH += /opt/boost/boost_1_54_0/include/
-### maybe you need some includes <<<
+### some lines here should be changed for compilation in your computer <<<
 
-LIBS += -llua5.1 -lluabindd \
-    -L/usr/local/lib/
+LIBS += -llua5.1 -lluabindd
 
 LIBS += -lboost_thread \
     -lboost_system \

@@ -24,9 +24,9 @@ OTHER_FILES += behavior/initialization.lua \
     behavior/alternative_design.lua \
     layer.config
 
-### maybe you need some includes >>>
+### some lines here should be changed for compilation in your computer >>>
 LIBS += -L/opt/boost/boost_1_54_0/lib/
-INCLUDEPATH += /opt/boost/boost_1_54_0/include/
-### maybe you need some includes <<<
+#INCLUDEPATH += /opt/boost/boost_1_54_0/include/
+### some lines here should be changed for compilation in your computer <<<
 
 LIBS += -lboost_system -lboost_program_options
