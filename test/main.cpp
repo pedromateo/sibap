@@ -1,4 +1,4 @@
-#include <QtGui/QApplication>
+#include <QApplication>
 #include "mainwindow.h"
 
 #include <imps/gui_vlang/qtlua_behaviorlayer.h>
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     BehaviorConfiguration bconf;
     bconf.updateFileTime(10)
          .logFormat("[%tm] %wi Event:%en :: State: %cs :: Assertion: %ar :: Function Called: %fc :: Result: %fr")
-         .addLogOutputFile("/tmp/behaviorlog.log")
+         .addLogOutputFile("/tmp/sibap_behavior.log")
          .addScriptPath("../../test/behavior/");
 
     // You can also configure if the log info goes to the screen.

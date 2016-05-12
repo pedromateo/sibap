@@ -9,29 +9,16 @@
 *   http://pedromateo.github.io/sibap/
 */
 
-#ifndef AOG_GENERICFUNCTIONCALLER_H
-#define AOG_GENERICFUNCTIONCALLER_H
+#ifndef AOG_DEFINITIONS_H
+#define AOG_DEFINITIONS_H
 
-#include <framework/aog_forward.h>
-
-namespace csu {
-namespace aog {
-namespace framework {
+/// functions signature elements
 
 
-class GenericFunctionCaller
-{
-public:
-    GenericFunctionCaller(BehaviorConfiguration* context);
-    virtual void initialize(void)=0;
+#define BF_INIT "init"
+#define BF_LOG "log"
+#define BF_STATE "state_"
+#define BF_ASSERT "assert"
+#define BF_DSEP "__"
 
-
-
-protected:
-    BehaviorConfiguration* context_;
-};
-
-}
-}
-}
-#endif // AOG_GENERICFUNCTIONCALLER_H
+#endif // AOG_DEFINITIONS_H

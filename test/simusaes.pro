@@ -7,6 +7,8 @@
 TARGET = simusaes
 TEMPLATE = app
 
+QT += widgets
+
 
 SOURCES += main.cpp\
         mainwindow.cpp

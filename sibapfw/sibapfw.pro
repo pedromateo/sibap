@@ -62,7 +62,8 @@ HEADERS += \
 #gui+language implementation
 ./imps/gui_vlang/qtlua_adapters.h \
 ./imps/gui_vlang/qtlua_behaviorlayer.h \
-./imps/gui_vlang/qtlua_elementregistrar.h
+./imps/gui_vlang/qtlua_elementregistrar.h \
+    framework/aog_definitions.h
 
 
 ### some lines here should be changed for compilation in your computer >>>

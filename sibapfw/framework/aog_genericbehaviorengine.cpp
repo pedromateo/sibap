@@ -1,27 +1,16 @@
 // -*- mode: c++; c-basic-offset: 4; c-basic-style: bsd; -*-
 /*
 *   This program is free software; you can redistribute it and/or
-*   modify
-*   it under the terms of the GNU Lesser General Public License as
+*   modify it under the terms of the GNU Lesser General Public License as
 *   published by the Free Software Foundation; either version 3.0 of
 *   the License, or (at your option) any later version.
 *
-*   This program is distributed in the hope that it will be useful,
-*   but WITHOUT ANY WARRANTY; without even the implied warranty of
-*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*   GNU Lesser General Public License for more details.
-*
-*   You should have received a copy of the GNU Lesser General Public
-*   License along with this library; if not, write to the Free Software
-*   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*   02111-1307 USA
-*
-*   This file is part of the Aspect-Oriented Behavior Framework,
-*   https://sourceforge.net/projects/aobf/
-*
+*   This file is part of the SIBAP Prototyping Framework
+*   http://pedromateo.github.io/sibap/
 */
 
 #include "aog_genericbehaviorengine.h"
+#include "aog_definitions.h"
 #include <framework/aog_executionresult.h>
 
 #include <boost/bind.hpp>
@@ -38,17 +27,15 @@ GenericBehaviorEngine::GenericBehaviorEngine(BehaviorConfiguration *context):con
 {
     _log::debug << "GenericBehaviorEngine::constructor" << std::endl;
 
-    separator="__";
-
-    initER="init"+separator+"[a-zA-Z0-9_-]+";
-    stateER="(state_[a-zA-Z0-9_-]+)"+separator+"([a-zA-Z0-9_-]+)";
-    stateactionER="(state_[a-zA-Z0-9_-]+)"+separator+"([a-zA-Z0-9_-]+)"+separator+"[a-zA-Z0-9_-]+";
-    logwidgetER="log"+separator+"[a-zA-Z0-9_-]+";
-    logactionER="([a-zA-Z0-9_-]+)"+separator+"log";
-    defaultER="([a-zA-Z0-9_-]+)"+separator+"+([a-zA-Z0-9_-]+)";
+    initER = BF_INIT "" BF_DSEP "" "[a-zA-Z0-9_-]+";
+    stateER = "(" BF_STATE "[a-zA-Z0-9_-]+)" BF_DSEP "([a-zA-Z0-9_-]+)";
+    stateactionER = "(" BF_STATE "[a-zA-Z0-9_-]+)" BF_DSEP "([a-zA-Z0-9_-]+)" BF_DSEP "[a-zA-Z0-9_-]+";
+    logwidgetER = BF_LOG "" BF_DSEP "[a-zA-Z0-9_-]+";
+    logactionER = "([a-zA-Z0-9_-]+)" BF_DSEP BF_LOG;
+    defaultER="([a-zA-Z0-9_-]+)" BF_DSEP "+([a-zA-Z0-9_-]+)";
 
     //FIXME TODO This RE is temporal waiting to make a regular expression like state_s__action__widget
-    definedFuncER="[a-zA-Z0-9_-]+"+separator+"[a-zA-Z0-9_-]+";
+    definedFuncER="[a-zA-Z0-9_-]+" BF_DSEP "[a-zA-Z0-9_-]+";
 
     stmachine_=new StateMachine(context_);
 
@@ -83,9 +70,18 @@ void GenericBehaviorEngine::initializeEngine()
     stmachine_->init();
 }
 
-bool GenericBehaviorEngine::callAssertFunction(const std::string &widget)
+int GenericBehaviorEngine::callAssertFunction(const std::string &widget)
 {
-    return callFunction("Assert"+separator+widget);
+    // assertion_result = -1 >> assertion not defined
+    // assertion_result = 0  >> assertion false
+    // assertion_result = 1  >> assertion true
+
+    const std::string assert_function = BF_ASSERT "" BF_DSEP + widget;
+
+    if (!functionExists(assert_function))
+        return -1;
+
+    return callFunction(assert_function);
 }
 
 bool GenericBehaviorEngine::executeFunction(const std::string & function)
@@ -113,17 +109,18 @@ bool GenericBehaviorEngine::executeAction(const std::string & action,const std::
     if (fset->size()!=0)
     {
         ExecutionResultPtr er(new ExecutionResult());
-        std::string defaultaction=action+separator+widget;
+        std::string defaultaction = action + BF_DSEP + widget;
         std::string stateaction;
-        std::string realfunc=defaultaction;
+        std::string realfunc = defaultaction;
         State * current = const_cast<State *>(stmachine_->currentState());
 
-        if (current!=stmachine_->initState())
+        // call state function if not in initState
+        if (current != stmachine_->initState())
         {
-            stateaction=current->id()+separator+defaultaction;
+            stateaction = current->id() + BF_DSEP + defaultaction;
             //Check if the current state function exists, else call the default function
             if (functionExists(stateaction))
-                realfunc=stateaction;
+                realfunc = stateaction;
         }
 
 
@@ -134,10 +131,16 @@ bool GenericBehaviorEngine::executeAction(const std::string & action,const std::
            return false;
 
         //Calling assertion function if exists
-        bool assertion = this->callAssertFunction(widget);
+        int assertion_result = this->callAssertFunction(widget);
+        // assertion_result = -1 >> assertion not defined
+        // assertion_result = 0  >> assertion false
+        // assertion_result = 1  >> assertion true
+        bool assertion = assertion_result == 0? false : true;
 
-        bool result;
-        if (assertion){
+        // Calling function describing behavior
+        bool result = false;
+        if (assertion)
+        {
             result = this->callFunction(realfunc);
         }
 
@@ -152,13 +155,13 @@ bool GenericBehaviorEngine::executeAction(const std::string & action,const std::
 
         //Once the function is called, additional log functions for auditing are called
         //First:  functions like action__log
-        std::string logFunc=action+separator+"log";
+        std::string logFunc = action + BF_DSEP "" BF_LOG;
 
         if (functionExists(logFunc))
             this->callFunction(logFunc);
 
         //Second: functions like log__widget
-        logFunc="log"+separator+widget;
+        logFunc = BF_LOG "" BF_DSEP + widget;
         if (functionExists(logFunc))
             this->callFunction(logFunc);
     }

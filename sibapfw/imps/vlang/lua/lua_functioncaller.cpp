@@ -1,8 +1,20 @@
+// -*- mode: c++; c-basic-offset: 4; c-basic-style: bsd; -*-
+/*
+*   This program is free software; you can redistribute it and/or
+*   modify it under the terms of the GNU Lesser General Public License as
+*   published by the Free Software Foundation; either version 3.0 of
+*   the License, or (at your option) any later version.
+*
+*   This file is part of the SIBAP Prototyping Framework
+*   http://pedromateo.github.io/sibap/
+*/
+
 #include "lua_functioncaller.h"
 #include <luabind/luabind.hpp>
 #include <boost/lexical_cast.hpp>
 
 
+#include <framework/aog_definitions.h>
 
 //#################################################################
 //###  TROZO DE CODIGO DE PRUEBA DE LLAMADAS A FUNCIONES LUA  #####
@@ -23,10 +35,10 @@ using namespace csu::aog::framework;
 
 LuaFunctionCaller::LuaFunctionCaller(BehaviorConfiguration *context):GenericFunctionCaller(context)
 {
-    initER="init__+([a-zA-Z0-9_-]+)";
-    stateER="state_+([a-zA-Z0-9_-]+)+__+([a-zA-Z0-9_-]+)";
-    logER="log__+([a-zA-Z0-9_-]+)";
-    defaultER="([a-zA-Z0-9_-]+)__+([a-zA-Z0-9_-]+)";
+    initER = BF_INIT "" BF_DSEP "+([a-zA-Z0-9_-]+)";
+    stateER = BF_STATE "+([a-zA-Z0-9_-]+)+" BF_DSEP "+([a-zA-Z0-9_-]+)";
+    logER = BF_LOG "" BF_DSEP "+([a-zA-Z0-9_-]+)";
+    defaultER = "([a-zA-Z0-9_-]+)" BF_DSEP "+([a-zA-Z0-9_-]+)";
 
     std::cout<<"LUAFunctionCaller::constructor" << std::endl;
 }

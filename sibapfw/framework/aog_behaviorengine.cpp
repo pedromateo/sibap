@@ -1,7 +1,20 @@
+// -*- mode: c++; c-basic-offset: 4; c-basic-style: bsd; -*-
+/*
+*   This program is free software; you can redistribute it and/or
+*   modify it under the terms of the GNU Lesser General Public License as
+*   published by the Free Software Foundation; either version 3.0 of
+*   the License, or (at your option) any later version.
+*
+*   This file is part of the SIBAP Prototyping Framework
+*   http://pedromateo.github.io/sibap/
+*/
+
 #include "aog_behaviorengine.h"
 
 #include <iostream>
 #include <boost/bind.hpp>
+
+#include "aog_definitions.h"
 
 namespace csu {
 namespace aog {
@@ -12,15 +25,15 @@ BehaviorEngine<T>::BehaviorEngine(BehaviorConfiguration *context){
 
     std::cout<<"BehaviorEngine::constructor" << std::endl;
 
-    initER = "init__+([a-zA-Z0-9_-]+)";
-    stateER = "state_+([a-zA-Z0-9_-]+)+__+([a-zA-Z0-9_-]+)";
-    logER = "log__+([a-zA-Z0-9_-]+)";
-    defaultER = "([a-zA-Z0-9_-]+)__+([a-zA-Z0-9_-]+)";
+    initER = BF_INIT "" BF_DSEP "+([a-zA-Z0-9_-]+)";
+    stateER = BF_STATE "+([a-zA-Z0-9_-]+)+" BF_DSEP "+([a-zA-Z0-9_-]+)";
+    logER = BF_LOG "" BF_DSEP "+([a-zA-Z0-9_-]+)";
+    defaultER = "([a-zA-Z0-9_-]+)" BF_DSEP "+([a-zA-Z0-9_-]+)";
 
     //FIXME TODO Esta ER es temporal a la espera de ver si es posible hacer metodos del tipo
     //estado_e__accion__widget, se utiliza para detectar que se ha definido una funcion correcta
     //para este framework
-    definedFuncER = "([a-zA-Z0-9_-]+)__+([a-zA-Z0-9_-]+)";
+    definedFuncER = "([a-zA-Z0-9_-]+)" BF_DSEP "+([a-zA-Z0-9_-]+)";
 }
 
 //template<class T>
@@ -37,7 +50,7 @@ BehaviorEngine<T>::BehaviorEngine(BehaviorConfiguration *context){
 template<class T>
 bool BehaviorEngine<T>::callAssertFunction(const std::string &widget)
 {
-    return this->callFunction("Assert__"+widget);
+    return this->callFunction(BF_ASSERT "" BF_DSEP + widget);
 }
 
 template<class T>
@@ -138,7 +151,7 @@ bool BehaviorEngine<T>::executeAction(const std::string & action,const std::stri
         //globales mejor indexadas y su coste es mejor, o tb se puede asumir el coste de la llamada
         //y el tratamiento del error
         if (this->callAssertFunction(widget))
-            this->callFunction(action+"__"+widget);
+            this->callFunction(action + BF_DSEP + widget);
     }
 }
 
@@ -183,7 +196,7 @@ void BehaviorEngine<T>::processGlobalEnvironmentTable(const FunctionSet * funcs)
             /// In what[1] the state
             /// In what[2] the widget
 
-            std::string state="state_"+what[1];
+            std::string state = BF_STATE + what[1];
             std::string widget=what[2];
 
             //std::cout<<"Funcion STATE "<<*it<<std::endl;

@@ -110,3 +110,18 @@ function click__pb_calibration_reset()
 end
 
 
+--#########################################
+--##            Assertions               ##
+--#########################################
+
+-- Assertions must be always satisfied.
+-- If the assertion for a widget is not satisfied, 
+-- then their functions are not executed.
+
+function assert__hs_balanceLevel()
+   __log("Asserting balance")
+   balance=MainWindow.hs_balanceLevel:value()
+   return balance >= 0 and balance <= 99
+end
+
+

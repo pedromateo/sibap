@@ -1,24 +1,12 @@
 // -*- mode: c++; c-basic-offset: 4; c-basic-style: bsd; -*-
 /*
 *   This program is free software; you can redistribute it and/or
-*   modify
-*   it under the terms of the GNU Lesser General Public License as
+*   modify it under the terms of the GNU Lesser General Public License as
 *   published by the Free Software Foundation; either version 3.0 of
 *   the License, or (at your option) any later version.
 *
-*   This program is distributed in the hope that it will be useful,
-*   but WITHOUT ANY WARRANTY; without even the implied warranty of
-*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*   GNU Lesser General Public License for more details.
-*
-*   You should have received a copy of the GNU Lesser General Public
-*   License along with this library; if not, write to the Free Software
-*   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-*   02111-1307 USA
-*
-*   This file is part of the Aspect-Oriented Behavior Framework,
-*   https://sourceforge.net/projects/aobf/
-*
+*   This file is part of the SIBAP Prototyping Framework
+*   http://pedromateo.github.io/sibap/
 */
 
 #include "lua_behaviorengine.h"
@@ -76,11 +64,17 @@ void Lua_BehaviorEngine::resetEngine()
 bool Lua_BehaviorEngine::functionExists(const std::string & func)
 {
     luabind::object obfunc = luabind::globals(L_)[func];
-     if(obfunc && luabind::type(obfunc) == LUA_TFUNCTION)
-         return true;
-
-     return false;
- }
+    if(obfunc && luabind::type(obfunc) == LUA_TFUNCTION)
+    {
+        //_log::debug << "(LuaBehaviorEngine::functionExists) '" << func << "'" << std::endl;
+        return true;
+    }
+    else
+    {
+        //_log::debug << "(LuaBehaviorEngine::No function) '" << func << "'" << std::endl;
+        return false;
+    }
+}
 
 
 bool Lua_BehaviorEngine::callFunction(const std::string & func)
@@ -92,9 +86,11 @@ bool Lua_BehaviorEngine::callFunction(const std::string & func)
         //I dont know why but this is necessary!!
         luabind::object obfunc = luabind::globals(L_)[func];
 
+        //_log::debug << "(Lua_BehaviorEngine::) 'calling = " << func << std::endl;
+        //_log::debug << "(Lua_BehaviorEngine::) 'exists = " << functionExists(func)  << std::endl;
+
         if (functionExists(func))
         {
-            _log::debug << "(Lua_BehaviorEngine::callFunction) Calling Function '"<<func<<"'" << std::endl;
             return luabind::call_function<bool>(L_, func.c_str());
         }
 
@@ -171,23 +167,23 @@ const FunctionSet * Lua_BehaviorEngine::processGlobals()
 
 void Lua_BehaviorEngine::registerLogGlobalFunc(const std::string &funcName, boost::function<void (std::string)>fp)
 {
-    _log::debug << "(Lua_BehaviorEngine::registerLogGlobalFunc) Registering Log Global Function '" << std::endl;
+    _log::debug << "(Lua_BehaviorEngine::registerLogGlobalFunc) Registering Log Global Function" << std::endl;
 
     luabind::module(L_)
-    [
-          luabind::def(funcName.c_str(),luabind::tag_function<void (std::string)>(boost::function<void (std::string)> (fp)))
-    ];
+            [
+            luabind::def(funcName.c_str(),luabind::tag_function<void (std::string)>(boost::function<void (std::string)> (fp)))
+            ];
 }
 
 void Lua_BehaviorEngine::registerLogSpecificFunc(const std::string &funcName, boost::function<void (std::string,std::string)>fp)
 {
-    _log::debug << "(Lua_BehaviorEngine::registerLogSpecificFunc) Registering Log Internal Functions '" << std::endl;
+    _log::debug << "(Lua_BehaviorEngine::registerLogSpecificFunc) Registering Log Internal Functions " << std::endl;
 
 
     luabind::module(L_)
-    [
-          luabind::def(funcName.c_str(),luabind::tag_function<void (std::string,std::string)>(fp))
-    ];
+            [
+            luabind::def(funcName.c_str(),luabind::tag_function<void (std::string,std::string)>(fp))
+            ];
 
 
 }
@@ -203,9 +199,9 @@ void Lua_BehaviorEngine::registerFunction(const std::string &state,boost::functi
     _log::debug << "(Lua_BehaviorEngine::registerFunction) Registering the new state '"<<state<<"'" << std::endl;
 
     luabind::module(L_)
-    [
+            [
             luabind::def(state.c_str(),luabind::tag_function<bool(void)>(transitionFunc))
-    ];
+            ];
 
 }
 

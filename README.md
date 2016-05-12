@@ -23,6 +23,18 @@ to incorporate suggestions from different stakeholders in real time. This
 allows to gather feedback more effectively by implementing participatory
 design techniques.
 
+## Running example
+
+While the SIBAP framework is included in `sibapfw` folder, an example including this
+framework is included in `test` folder. 
+
+This example can be easily opened, compiled and run with 
+QtCreator (https://www.qt.io/ide/). 
+Behavior files are included in `behavior` folder. 
+An execution log can be found at `/tmp/sibap_behavior.log`.
+
+
+
 ## Framework integration
 
 The integration process is divided into two stages: configuration and deployment.
@@ -44,25 +56,30 @@ init() method is called to deploy and start the behavior service:
 
 ### Main function template
 
-    state stateID event widget()   // Executed when event is performed on widget 
-                                   // being in state stateID. state stateID is optional.
+    state_stateID__event__widget()  // Executed when event is performed on widget 
+                                    // being in state stateID. state stateID is optional.
 
 ### Initialization functions
 
-    init widget()                  // Initialization of widget
-    state stateID widget()         // Initialization of widget when stateID is enabled
+    init__widget()                  // Initialization of widget
+    state_stateID__widget()         // Initialization of widget when stateID is enabled
 
 ### State functions
 
-    state stateID()                // Does transition to state stateID. (State functions
-                                   // are automatically defined by SIBAP ).
+    state__stateID()                // Does transition to state stateID. (State functions
+                                    // are automatically defined by SIBAP).
+
+### Assert functions
+
+    assert__widget()                // Assertion for a widget must be satisfied for its
+                                    // behavior functions to be executed.
 
 ### Logging functions
 
-    log widget()                   // Executed when widget is interacted
-    event log()                    // Executed when event is performed
-    log(content)                   // Adds content to log streams
-    flog(fileName,content)         // Adds content to the file fileName
+    log__widget()                   // Executed when widget is interacted
+    event__log()                    // Executed when event is performed
+    __log(content)                  // Adds content to log streams
+    __flog(fileName,content)        // Adds content to the file fileName
 
 
 ## Prototype initialization
