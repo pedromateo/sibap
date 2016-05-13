@@ -189,14 +189,11 @@ Examples:
        updateValues() -- supporting functions can be used as well
     end
 
-
     function wheel__hs_balanceLevel()
        __log("Changing balance")
        balance=MainWindow.hs_balanceLevel:value()
        updateValues()
     end
-
-
 
 
 ## Prototype initialization
