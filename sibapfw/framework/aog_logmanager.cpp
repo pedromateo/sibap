@@ -12,6 +12,7 @@
 #include <framework/aog_logmanager.h>
 #include <framework/aog_behaviorconfiguration.h>
 #include <framework/aog_executionresult.h>
+#include <framework/aog_definitions.h>
 
 namespace csu {
 namespace aog {
@@ -34,8 +35,8 @@ void LogManager::reloadOutPutFiles()
     StreamSet::iterator itStream;
 
     for (itStream = files_.begin();
-    itStream != files_.end();
-    itStream++)
+         itStream != files_.end();
+         itStream++)
     {
         (*itStream).flush();
         (*itStream).close();
@@ -48,8 +49,8 @@ void LogManager::reloadOutPutFiles()
     std::set<std::string> files= context_->logFiles();
 
     for (it = files.begin();
-    it != files.end();
-    it++)
+         it != files.end();
+         it++)
     {
         //create a file stream
         std::ofstream* o =new std::ofstream;
@@ -70,8 +71,8 @@ void LogManager::reloadOutPutStreams()
     std::set<std::ostream*>::iterator ito;
     std::set<std::ostream*> streams= context_->logStreams();
     for (ito = streams.begin();
-    ito != streams.end();
-    ito++)
+         ito != streams.end();
+         ito++)
     {
         //add the stream to the log
         std::ostream* os = *ito;
@@ -86,8 +87,8 @@ void LogManager::install()
     std::set<std::string>::iterator it;
     std::set<std::string> files= context_->logFiles();
     for (it = files.begin();
-    it != files.end();
-    it++)
+         it != files.end();
+         it++)
     {
         //create a file stream
         std::ofstream* o =new std::ofstream;
@@ -103,8 +104,8 @@ void LogManager::install()
     std::set<std::ostream*>::iterator ito;
     std::set<std::ostream*> streams= context_->logStreams();
     for (ito = streams.begin();
-    ito != streams.end();
-    ito++)
+         ito != streams.end();
+         ito++)
     {
         //add the stream to the log
         std::ostream* os = *ito;
@@ -120,8 +121,8 @@ void LogManager::uninstall()
     //flush and close all streams
     StreamSet::iterator it;
     for (it = files_.begin();
-    it != files_.end();
-    it++)
+         it != files_.end();
+         it++)
     {
         (*it).flush();
         (*it).close();
@@ -172,45 +173,45 @@ std::string LogManager::doLog(const ExecutionResultPtr er)
     while (itbase != base.end())
     {
         //on format sequence...
-        if (*itbase == '%')
+        if (*itbase == LO_BASE)
         {
             itbase++; aux = *itbase;
             itbase++; aux += *itbase;
             //check it
-            if (aux == "tm")
+            if (aux == LO_TIMESTAMP)
             {
                 boost::posix_time::ptime t(boost::posix_time::second_clock::local_time());
                 result += boost::posix_time::to_simple_string(t);
             }
-            else if (aux == "en")
+            else if (aux == LO_EVENTNAME)
             {
                 result += er->actionEvent();
             }
-            else if (aux == "wi")
+            else if (aux == LO_WIDGET)
             {
                 result += er->actionWidget();
             }
-            else if (aux == "cs")
+            else if (aux == LO_CSTATE)
             {
                 result += er->currentState();
             }
-            else if (aux == "ar")
+            else if (aux == LO_ASSERT)
             {
                 if (er->assertResult())
-                    result +="Satisfied";
+                    result += LO_ASSERT_OK;
                 else
-                    result +="Not Satisfied";
+                    result += LO_ASSERT_KO;
             }
-            else if (aux == "fc")
+            else if (aux == LO_FUNCTIONCALLED)
             {
                 result +=er->functionCalled();
             }
-            else if (aux == "fr")
+            else if (aux == LO_FUNCTIONRESULT)
             {
                 if (er->functionResult())
-                    result +="True";
+                    result += LO_FUNCTIONRESULT_OK;
                 else
-                    result +="False";
+                    result += LO_FUNCTIONRESULT_KO;
             }
             else
             {
@@ -268,7 +269,7 @@ void LogManager::doLog(const std::string & logFile,const std::string & statement
         openLogFiles_[logFile]->open(logFile.c_str(), std::ios::app);
     }
 
-   if (openLogFiles_[logFile])
+    if (openLogFiles_[logFile])
         *(openLogFiles_[logFile])<<result<<std::endl;
 
 

@@ -21,7 +21,7 @@ namespace framework {
 using namespace csu::aog::config::log;
 
 GenericFileManager::WatchDog::WatchDog(GenericFileManager *manager)
-:manager_(manager)
+    :manager_(manager)
 {
     monitoring_ = false;
 }
@@ -149,7 +149,8 @@ bool GenericFileManager::updateConfig()
         //If it is does not exist
         if (!exists(path(configFile_)))
         {
-            _log::script <<"(FileManager::updateConfig) Error: Config File '"<<configFile_<<"'does not exists." << std::endl;
+            _log::script << "(FileManager::updateConfig) Error: Config File '"
+                         << configFile_ << "'does not exists." << std::endl;
             configFile_ = "";
             return false;
         }
@@ -157,7 +158,8 @@ bool GenericFileManager::updateConfig()
         context_->loadConfigFile(configFile_);
         lastWriteConfigFile_ = getFileLastDate(path(configFile_));
         return true;
-    }else{
+    }
+    else{
         //No config file present
         if (configFile_=="")
             return false;
@@ -168,9 +170,9 @@ bool GenericFileManager::updateConfig()
 
         //If date changed then reload config file
         if (hasChanged(configFile_,lastWriteConfigFile_)){
-             context_->loadConfigFile(configFile_);
-             lastWriteConfigFile_ = getFileLastDate(path(configFile_));
-             return true;
+            context_->loadConfigFile(configFile_);
+            lastWriteConfigFile_ = getFileLastDate(path(configFile_));
+            return true;
         }
     }
     return false;
@@ -261,7 +263,7 @@ bool GenericFileManager::updateFiles()
 
 
     if (!updated)
-       ;//_log::script <<"(FileManager::updateFile) No files updated since last checking"<< std::endl;
+        ;//_log::script <<"(FileManager::updateFile) No files updated since last checking"<< std::endl;
     else
         notifyAll();
 

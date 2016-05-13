@@ -10,6 +10,7 @@
 */
 
 #include "aog_behaviorconfiguration.h"
+#include "aog_definitions.h"
 #include <vector>
 
 
@@ -27,14 +28,13 @@ BehaviorConfiguration::BehaviorConfiguration(const std::string & configFile) : c
     // allowed in config file
 
     configOptions_.add_options()
-        ("UpdateFileTime", po::value<int>()->implicit_value(3))
-        ("LogFormat", po::value<std::string>()->implicit_value("[%tm] %wi Event:%en :: State: %cs Assertion: %ar Function Called: %fc :: Result: %fr"))
-        ("LogOutPutFile", po::value< std::vector<std::string> >())
-        ("ScriptPath", po::value< std::vector<std::string> >())
-        ("StandardError", po::value< std::string >()->implicit_value("off"))
-        ("StandardOutput", po::value< std::string >()->implicit_value("on"));
+        (BO_UPDATETIME, po::value<int>()->implicit_value(3))
+        (BO_LOGFORMAT, po::value<std::string>()->implicit_value("[%tm] %wi Event:%en :: State: %cs Assertion: %ar Function Called: %fc :: Result: %fr"))
+        (BO_LOGOUTPUTFILE, po::value< std::vector<std::string> >())
+        (BO_SCRIPTSPATH, po::value< std::vector<std::string> >())
+        (BO_STDERR, po::value< std::string >()->implicit_value("off"))
+        (BO_STDOUT, po::value< std::string >()->implicit_value("on"));
 }
-
 
 
 BehaviorConfiguration& BehaviorConfiguration::loadConfigFile(const std::string & configFile)
@@ -151,23 +151,23 @@ bool BehaviorConfiguration::_reloadConfiguration()
 
         po::variables_map::iterator i;
 
-        if (vm.count("UpdateFileTime") && (updateFileTime_!=vm["UpdateFileTime"].as< int >()))
+        if (vm.count(BO_UPDATETIME) && (updateFileTime_!=vm[BO_UPDATETIME].as< int >()))
         {
-           updateFileTime(vm["UpdateFileTime"].as< int >());
+           updateFileTime(vm[BO_UPDATETIME].as< int >());
 
         }
 
-        if (vm.count("LogFormat") && (logFormat_!=vm["LogFormat"].as< std::string >()))
+        if (vm.count(BO_LOGFORMAT) && (logFormat_!=vm[BO_LOGFORMAT].as< std::string >()))
         {
-            std::string aux=vm["LogFormat"].as< std::string >();
+            std::string aux=vm[BO_LOGFORMAT].as< std::string >();
             aux.erase(std::remove( aux.begin(), aux.end(), '\"' ), aux.end());
            logFormat(aux);
 
         }
 
-        if (vm.count("LogOutPutFile"))
+        if (vm.count(BO_LOGOUTPUTFILE))
         {
-            std::vector<std::string> files=vm["LogOutPutFile"].as< std::vector< std::string > >();
+            std::vector<std::string> files=vm[BO_LOGOUTPUTFILE].as< std::vector< std::string > >();
             std::vector<std::string>::iterator i=files.begin();
             clearLogOutputFiles();
             for (;i!=files.end();i++)
@@ -178,9 +178,9 @@ bool BehaviorConfiguration::_reloadConfiguration()
             logManager->reloadOutPutFiles();
         }
 
-        if (vm.count("ScriptPath"))
+        if (vm.count(BO_SCRIPTSPATH))
         {
-            std::vector<std::string> files=vm["ScriptPath"].as< std::vector< std::string > >();
+            std::vector<std::string> files=vm[BO_SCRIPTSPATH].as< std::vector< std::string > >();
             std::vector<std::string>::iterator i=files.begin();
 
             //Check if contents are different
@@ -244,9 +244,9 @@ bool BehaviorConfiguration::_reloadConfiguration()
             }
         }
 
-        if (vm.count("StandardOutput") && (stadardOutput_!=vm["StandardOutput"].as< std::string >()))
+        if (vm.count(BO_STDOUT) && (stadardOutput_!=vm[BO_STDOUT].as< std::string >()))
         {
-            std::string value=vm["StandardOutput"].as< std::string >();
+            std::string value=vm[BO_STDOUT].as< std::string >();
             value.erase(std::remove( value.begin(), value.end(), '\"' ), value.end());
 
             if (value=="on")
@@ -261,9 +261,9 @@ bool BehaviorConfiguration::_reloadConfiguration()
             logManager->reloadOutPutStreams();
         }
 
-        if (vm.count("StandardError") && (standardError_!=vm["StandardError"].as< std::string >()))
+        if (vm.count(BO_STDERR) && (standardError_!=vm[BO_STDERR].as< std::string >()))
         {
-            std::string value=vm["StandardError"].as< std::string >();
+            std::string value=vm[BO_STDERR].as< std::string >();
             value.erase(std::remove( value.begin(), value.end(), '\"' ), value.end());
 
             if (value=="on")

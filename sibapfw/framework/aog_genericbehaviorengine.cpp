@@ -278,7 +278,7 @@ void GenericBehaviorEngine::processGlobalEnvironmentTable(const FunctionSet * fu
 
     //Checking if the state machine is in a consistent state
     if (!stmachine_->checkConsistency())
-        context_->logManager->doLog("*** WARNING *** State Machine is it in a INCONSISTENT state. Current state is '"
+        context_->logManager->doLog("*** WARNING *** State Machine is in a INCONSISTENT state. Current state is '"
                                     +const_cast<State *>(stmachine_->currentState())->id()+"' and it doesnt exist in the script files.");
 
 

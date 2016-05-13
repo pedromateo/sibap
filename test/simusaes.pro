@@ -21,18 +21,17 @@ FORMS    += mainwindow.ui
 INCLUDEPATH += ../sibapfw
 LIBS += -L../sibapfw -lsibapfw
 
-OTHER_FILES += behavior/initialization.lua \
-    behavior/proto_behavior.lua \
-    behavior/alternative_design.lua \
-    layer.config
+LIBS += -lboost_system -lboost_program_options
 
 ### some lines here should be changed for compilation in your computer >>>
 LIBS += -L/opt/boost/boost_1_54_0/lib/
 #INCLUDEPATH += /opt/boost/boost_1_54_0/include/
 ### some lines here should be changed for compilation in your computer <<<
 
-LIBS += -lboost_system -lboost_program_options
-
 DISTFILES += \
+    behavior/alternative_design.lua \
     behavior/MainWindow/calibration.lua \
     behavior/MainWindow/initialization.lua
+
+
+

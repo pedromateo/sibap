@@ -11,6 +11,7 @@
 
 #include "aog_statemachine.h"
 #include <framework/aog_behaviorconfiguration.h>
+#include <framework/aog_definitions.h>
 
 using namespace csu::aog::config::log;
 
@@ -68,7 +69,7 @@ const FunctionSet & State::actionFunctions()
 StateMachine::StateMachine(BehaviorConfiguration *context):context_(context)
 {
     currentState_ = NULL;
-    initState_ = new State("init");
+    initState_ = new State(BS_INITSTATE);
 }
 
 bool StateMachine::init()
