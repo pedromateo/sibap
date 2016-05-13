@@ -118,6 +118,14 @@ Example:
 
     assert__widget()                // Assertion for a widget must be satisfied for its
                                     // behavior functions to be executed.
+                                    
+Example:
+
+    function assert__hs_balanceLevel()
+       __log("Asserting balance")
+       balance=MainWindow.hs_balanceLevel:value()
+       return balance >= 0 and balance <= 99
+    end
 
 ### Logging functions
 
@@ -127,33 +135,40 @@ Example:
     __flog(fileName,content)        // Adds content to the file fileName
 
 
+### Supporting functions
+
+All the expressiveness of the scripting language
+(Lua in this case) and its interpreter can be used to define the behavior
+of a GUI. Variables, data structures, supporting functions, etc. can be
+used in the behavior functions to compute additional values and build
+high-quality prototypes.
+
+Examples:
+
+    function calculatePower()
+       power=buffer_size * 0.5 + sample_rate * 0.5
+       ...
+    end
+
+    function setChannelsValue()
+       aux=power*2
+       MainWindow.pb_left:setValue(power * ((100-balance)/100)*2)
+       ...
+    end
+
+    function updateValues()
+       calculatePower()
+       setChannelsValue()
+    end
+
 ## Framework events
 
 All the following scene events (i.e., those application events related to user 
 interaction) are supported by SIBAP, thus can be used to define behavior functions:
 
 - `click`
-
-Example:
-
-    function click__di_ampliLevel()
-       __log("Changing amplification")
-       amplification=MainWindow.di_ampliLevel:value()
-       MainWindow.lc_ampliLevel:display(amplification)
-       updateValues() -- supporting functions can be used as well
-    end
-
 - `doubleclick`
 - `wheel`
-
-Example:
-
-    function wheel__hs_balanceLevel()
-       __log("Changing balance")
-       balance=MainWindow.hs_balanceLevel:value()
-       updateValues()
-    end
-
 - `focusin`
 - `focusout`
 - `mouseoverenter`
@@ -164,6 +179,24 @@ Example:
 - `show`
 - `hide`
 - `repaint`
+
+Examples:
+
+    function click__di_ampliLevel()
+       __log("Changing amplification")
+       amplification=MainWindow.di_ampliLevel:value()
+       MainWindow.lc_ampliLevel:display(amplification)
+       updateValues() -- supporting functions can be used as well
+    end
+
+
+    function wheel__hs_balanceLevel()
+       __log("Changing balance")
+       balance=MainWindow.hs_balanceLevel:value()
+       updateValues()
+    end
+
+
 
 
 ## Prototype initialization
