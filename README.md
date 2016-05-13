@@ -100,6 +100,7 @@ init() method is called to deploy and start the behavior service:
     state_stateID__widget()         // Initialization of widget when stateID is enabled
     
 Example:
+
     function init__di_ampliLevel()
         __log("Initializing dials")
         MainWindow.di_ampliLevel:setValue(50)
