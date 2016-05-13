@@ -42,15 +42,50 @@ The integration process is divided into two stages: configuration and deployment
 Stage 1: Configuration. The process is easily configured using a BehaviorConfiguration
 object. This object encapsulates all configuration data needed during execution (e.g., the di-rectory of behavior files or refreshing time) It can be instantiated from a configuration file:
 
-    // behavior layer configuration
-    BehaviorConfiguration bconf("config/layer.config");
+    int main(int argc, char *argv[])
+    {
+        QApplication qapp(argc, argv);
+        MainWindow w;
+        w.show();
+
+        ///
+        /// behavior layer configuration
+
+        // Alternative 1
+        //BehaviorConfiguration bconf("../layer.config");
+
+        // Alternative 2
+        //BehaviorConfiguration bconf;
+        //bconf.loadConfigFile("layer.config");
+
+        // Alternative 3
+        BehaviorConfiguration bconf;
+        bconf.updateFileTime(10)
+             .logFormat("[%tm] %wi Event:%en :: State: %cs :: Assertion: %ar :: Function Called: %fc :: Result: %fr")
+             .addLogOutputFile("/tmp/sibap_behavior.log")
+             .addScriptPath("./test/behavior/");
+
+        // You can also configure if the log info goes to the screen.
+        // Available parameters are on,off
+        // StandardOutput=on
+        // StandardError=off
+    ...
 
 Stage 2: Deployment. Once the configuration object is created, it is used to create and configure a new BehaviorLayer. The BehaviorLayer object encapsulates the whole prototyping framework. Once created, the
 init() method is called to deploy and start the behavior service:
 
-    // behavior layer deployment
-    QtLua_BehaviorLayer blayer(bconf);
-    blayer.init();
+
+    ...
+        ///
+        /// behavior layer deployment
+
+        QtLua_BehaviorLayer blayer(&bconf);
+        blayer.init();
+
+        ///
+
+        return qapp.exec();
+    }
 
 ## Framework functions
 
@@ -63,6 +98,15 @@ init() method is called to deploy and start the behavior service:
 
     init__widget()                  // Initialization of widget
     state_stateID__widget()         // Initialization of widget when stateID is enabled
+    
+Example:
+    function init__di_ampliLevel()
+        __log("Initializing dials")
+        MainWindow.di_ampliLevel:setValue(50)
+        MainWindow.di_signalEcho:setValue(50)
+        MainWindow.di_nrLevel:setValue(50)
+        MainWindow.di_volumeLevel:setValue(50)
+    end
 
 ### State functions
 
@@ -80,6 +124,41 @@ init() method is called to deploy and start the behavior service:
     event__log()                    // Executed when event is performed
     __log(content)                  // Adds content to log streams
     __flog(fileName,content)        // Adds content to the file fileName
+
+
+## Framework events
+
+All the following scene events (i.e., those application events related to user 
+interaction) are supported by SIBAP, thus can be used to define behavior functions:
+
+- `click`
+
+    function click__di_ampliLevel()
+       __log("Changing amplification")
+       amplification=MainWindow.di_ampliLevel:value()
+       MainWindow.lc_ampliLevel:display(amplification)
+       updateValues() -- supporting functions can be used as well
+    end
+
+- `doubleclick`
+- `wheel`
+
+    function wheel__hs_balanceLevel()
+       __log("Changing balance")
+       balance=MainWindow.hs_balanceLevel:value()
+       updateValues()
+    end
+
+- `focusin`
+- `focusout`
+- `mouseoverenter`
+- `mouseoverleave`
+- `mouseovermove`
+- `keypress`
+- `keyrelease`
+- `show`
+- `hide`
+- `repaint`
 
 
 ## Prototype initialization

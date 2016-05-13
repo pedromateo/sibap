@@ -32,3 +32,7 @@ LIBS += -L/opt/boost/boost_1_54_0/lib/
 ### some lines here should be changed for compilation in your computer <<<
 
 LIBS += -lboost_system -lboost_program_options
+
+DISTFILES += \
+    behavior/MainWindow/calibration.lua \
+    behavior/MainWindow/initialization.lua
