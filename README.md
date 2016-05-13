@@ -134,6 +134,8 @@ interaction) are supported by SIBAP, thus can be used to define behavior functio
 
 - `click`
 
+Example:
+
     function click__di_ampliLevel()
        __log("Changing amplification")
        amplification=MainWindow.di_ampliLevel:value()
@@ -143,6 +145,8 @@ interaction) are supported by SIBAP, thus can be used to define behavior functio
 
 - `doubleclick`
 - `wheel`
+
+Example:
 
     function wheel__hs_balanceLevel()
        __log("Changing balance")
